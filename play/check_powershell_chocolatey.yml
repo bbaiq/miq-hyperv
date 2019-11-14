@@ -1,0 +1,17 @@
+---
+- hosts: windows
+
+  tasks:
+  - name: Make sure Windows Management Framework and PowerShell is latest version
+    win_chocolatey:
+      name: powershell
+      state: latest
+    register: check_powershell5
+    become: yes
+    become_user: SYSTEM
+    become_method: runas
+   
+  - name: Debug Powershell version
+    debug:
+      var: check_powershell5
+    #when: file_info.stat.exists == true

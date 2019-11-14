@@ -1,0 +1,53 @@
+---
+- hosts: windows
+
+  vars:
+    src_vhd: "C:\\Users\\Public\\Documents\\Hyper-V\\Virtual hard disks\\ADIREST-2012R2.vhdx"
+    dest_vhd: "C:\\Users\\Public\\Documents\\Hyper-V\\Virtual hard disks\\{{vmname}}.vhdx"
+    vmname: 'MyVMBBA'
+    generation: '1'
+    cpu: '1'
+    memory: '512MB'
+    network_switch: 'PROD'
+    network_ip: '192.168.24.1'
+    network_netmask: '255.255.255.0'
+    network_gateway: '192.168.24.254'
+    network_dns: '10.16.82.213'
+    network_type: 'dhcp'
+
+  tasks:
+    - name: Check vhdx already exists
+      win_stat:
+        path: "{{ dest_vhd }}"
+        get_checksum: false
+        get_md5: false
+      register: file_info
+
+    - debug: 
+        var: file_info.stat.exists
+
+    - name: Clone VHDX
+      win_copy:
+        src: "{{ src_vhd }}"
+        dest: "{{ dest_vhd }}"
+        remote_src: True
+      when: file_info.stat.exists == false
+
+    - name: Create VM
+      win_hyperv_guest:
+        name: "{{ vmname }}"
+        generation: "{{ generation }}"
+        cpu: "{{ cpu }}"
+        memory: "{{ memory }}"
+        network_switch: "{{ network_switch }}"
+        diskpath: "{{ dest_vhd }}"
+        state: present
+      register: new_vm
+
+    - debug: 
+        var: new_vm
+
+    - name: Poweron VMs
+      win_hyperv_guest:
+        name: "{{ vmname }}"
+        state: started
