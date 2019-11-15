@@ -1,4 +1,5 @@
-# win-dsc
+# miq-hyperv
+Collection de modules ansible pour Hyperv (via powershell)
 
 # Prérequis : 
 - Powershell v5 obligatoire : Lancer le script d'upgrade v5
@@ -16,10 +17,9 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 &$file -Version 5.1 -Username $username -Password $password -Verbose
 ```
 
-
-
 - Vérifier version Powershell via $PsVersionTable.
 - Machines dans le domaine HBGT (variable group_vars)
+
 
 # Autoconfiguration ConfigureRemotingForAnsible.ps1
 Le script ConfigureRemotingForAnsible.ps1 automatise :
@@ -77,13 +77,6 @@ Get-ChildItem -Path WSMan:\localhost\Listener | Where-Object { $_.Keys -contains
 ```
 
 
-# Playbook telegraf.yml
-- Ajouter les hosts dans env/inventory.ini
-- Le playbook telegraf.yml recheche si une version telegraf est existante
-- Si existante, le playbook arrete le service
-- Il copie ensuite les fichiers telegraf.exe et telegrfa.conf dans C:\program Files\telegraf
-- Il inscrit le service telegraf puis démarre le service
-- Le fichier de conf telegraf pousse les métriques en HTTPS vers la bdD temporelles influxDB
-- 1 datasource influxdb interroge les métriques et construit le dashboard Grafana
+# Playbook createvm.yml
 
 
