@@ -1,5 +1,5 @@
 # miq-hyperv
-Collection de modules ansible powershell pour yperv
+Collection de modules ansible pour Hyperv (via powershell)
 
 # Prérequis : 
 - Powershell v5 obligatoire : Lancer le script d'upgrade v5
