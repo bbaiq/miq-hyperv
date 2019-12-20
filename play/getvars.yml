@@ -1,11 +1,7 @@
 ---
-- hosts: all
+- hosts: localhost
   gather_facts: false
   connection: local
-
-  vars:
-    max_retries: 9
-    retry_interval: 20
   
   # vars_prompt:
   #   - name: "vmname"
@@ -13,8 +9,7 @@
   #     private: no
 
   tasks:
-    - debug: var=vmname
-
-    - name: Debug vmname
-      debug:
+    - name: Display variable vmname
+      debug: 
         var: vmname
+
