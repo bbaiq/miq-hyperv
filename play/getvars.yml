@@ -12,4 +12,6 @@
     - name: Display variable vmname
       debug: 
         var: vmname
-
+        var: memory
+        var: cpu
+        var: storage
